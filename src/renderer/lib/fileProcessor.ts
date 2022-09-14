@@ -25,8 +25,10 @@ const handleProgress = (payload: ProgressingPayload): void => {
     const config = payload.options.config as ComboOptions;
     const base = path.basename(result.filename || filename);
     if (result.numCombos === 0 && config.deleteZeroComboFiles) {
-      const deleted = shell.moveItemToTrash(result.filename);
-      if (deleted) {
+//       const deleted = shell.moveItemToTrash(result.filename);
+      const deleted = await shell.trashItem(result.filename).then(S, F);
+//       if (deleted) {
+      if (deleted.S) {
         dispatcher.tempContainer.setComboLog(`Deleted: ${base}`);
       } else {
         const message = `Failed to delete file: ${result.filename}`;
